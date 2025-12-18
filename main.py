@@ -9,7 +9,13 @@ load_dotenv()
 from groq import Groq
 
 try:
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY not set")
+
+    client = Groq(api_key=api_key)
+
+    # client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 except Exception as e:
     # A cleaner way to handle this in a function is to set client to None
     print(f"Error initializing Groq client: {e}")
